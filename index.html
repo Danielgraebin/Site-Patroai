@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PatroAI — Governable AI para empresas</title>
+  <meta name="description" content="A PatroAI cria e governa sistemas de IA aplicados ao negócio: agentes, integrações e auditoria — do diagnóstico à escala." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="PatroAI — Governable AI para empresas" />
+  <meta property="og:description" content="IA central e governável para automatizar processos com segurança, rastreabilidade e integração." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/og-patroai.png" />
+
+  <link rel="icon" href="assets/favicon.ico" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* Paleta PatroAI */
+      --gold: #D4AF37;
+      --blue: #4FB7F3;
+      --petro: #1C3F5E;
+      --white: #FFFFFF;
+
+      /* Base UI (dark premium) */
+      --bg: #070A0E;              /* quase preto */
+      --panel: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.12);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --muted2: rgba(255,255,255,.55);
+
+      --accent: var(--gold);      /* CTA principal */
+      --accent2: var(--blue);     /* detalhes/links */
+
+      --shadow: 0 14px 40px rgba(0,0,0,.45);
+      --radius: 18px;
+      --max: 1120px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: "Open Sans", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --head: "Montserrat", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:var(--sans); color:var(--text);
+      background:
+        radial-gradient(1100px 650px at 18% 12%, rgba(79,183,243,.14), transparent 65%),
+        radial-gradient(980px 560px at 82% 14%, rgba(212,175,55,.16), transparent 62%),
+        radial-gradient(980px 560px at 52% 92%, rgba(28,63,94,.24), transparent 66%),
+        var(--bg);
+      line-height:1.55;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:22px 20px 84px}
+    .nav{
+      position:sticky; top:0; backdrop-filter:saturate(180%) blur(10px);
+      background:linear-gradient(to bottom, rgba(7,10,14,.78), rgba(7,10,14,.34));
+      border-bottom:1px solid rgba(255,255,255,.08);
+      z-index:50;
+    }
+    .nav .inner{max-width:var(--max); margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:14px; justify-content:space-between}
+    .brand{display:flex; align-items:center; gap:12px}
+    .brand img{width:38px; height:38px; object-fit:contain}
+    .brand .name{font-family:var(--head); font-weight:800; letter-spacing:.2px}
+    .brand .tag{font-size:12px; color:var(--muted2); margin-top:2px}
+    .menu{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
+    .menu a{font-size:13px; color:var(--muted); padding:8px 10px; border-radius:12px}
+    .menu a:hover{background:rgba(255,255,255,.06); color:var(--text)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px; padding:12px 14px; border-radius:14px;
+      border:1px solid var(--stroke); background:rgba(255,255,255,.06);
+      color:var(--text); font-weight:700; font-size:14px;
+      box-shadow:none; transition:transform .12s ease, background .12s ease, border-color .12s ease;
+      cursor:pointer;
+    }
+    .btn:hover{transform:translateY(-1px); background:rgba(255,255,255,.09)}
+    .btn.primary{border-color:rgba(212,175,55,.58); background:rgba(212,175,55,.16)}
+    .btn.primary:hover{background:rgba(212,175,55,.22)}
+    .btn.blue{border-color:rgba(79,183,243,.55); background:rgba(79,183,243,.12)}
+    .btn.blue:hover{background:rgba(79,183,243,.16)}
+    .chip{display:inline-flex; gap:8px; align-items:center; padding:7px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.05); color:var(--muted); font-size:12px}
+    .dot{width:8px; height:8px; border-radius:99px; background:var(--accent); box-shadow:0 0 0 6px rgba(212,175,55,.14)}
+    .hero{padding:52px 0 26px}
+    .hero-grid{display:grid; grid-template-columns: 1.15fr .85fr; gap:18px; align-items:stretch}
+    @media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
+    h1{font-family:var(--head); font-size:44px; line-height:1.05; margin:12px 0 10px; letter-spacing:-.6px}
+    @media (max-width:520px){h1{font-size:36px}}
+    .sub{color:var(--muted); font-size:16px; max-width:68ch}
+    .panel{
+      border:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.035));
+      border-radius:var(--radius); padding:18px; box-shadow:var(--shadow);
+    }
+    .hero-card{display:flex; flex-direction:column; gap:12px; justify-content:space-between}
+    .kpis{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+    @media (max-width:520px){.kpis{grid-template-columns:1fr}}
+    .kpi{padding:12px 12px; border-radius:16px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.045)}
+    .kpi .n{font-weight:900; font-size:16px; font-family:var(--head)}
+    .kpi .t{font-size:12px; color:var(--muted2)}
+    .cta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
+    .note{font-size:12px; color:var(--muted2)}
+    .sec{padding:18px 0}
+    .sec h2{font-family:var(--head); font-size:22px; margin:0 0 10px}
+    .sec p{margin:0; color:var(--muted)}
+    .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:12px}
+    @media (max-width:900px){.grid3{grid-template-columns:1fr}}
+    .card h3{margin:0 0 6px; font-size:16px; font-family:var(--head)}
+    .card p{margin:0; font-size:13px; color:var(--muted)}
+    .mini{font-family:var(--mono); font-size:12px; color:var(--muted2)}
+    .split{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px}
+    @media (max-width:900px){.split{grid-template-columns:1fr}}
+    .steps{display:grid; gap:10px; margin-top:10px}
+    .step{display:flex; gap:12px; align-items:flex-start}
+    .step .num{min-width:28px; height:28px; display:grid; place-items:center; border-radius:10px; background:rgba(79,183,243,.12); border:1px solid rgba(79,183,243,.26); font-weight:900}
+    .hr{height:1px; background:rgba(255,255,255,.10); margin:20px 0}
+    form{display:grid; gap:10px; margin-top:12px}
+    .row{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    @media (max-width:700px){.row{grid-template-columns:1fr}}
+    label{font-size:12px; color:var(--muted2)}
+    input, textarea{
+      width:100%; padding:12px 12px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.10); background:rgba(0,0,0,.25);
+      color:var(--text); outline:none;
+    }
+    input:focus, textarea:focus{border-color:rgba(212,175,55,.70)}
+    footer{margin-top:36px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; color:var(--muted2); font-size:12px}
+    .legal a{color:var(--muted); text-decoration:underline; text-underline-offset:3px}
+  </style>
+</head>
+
+<body>
+  <div class="nav">
+    <div class="inner">
+      <a class="brand" href="#top" aria-label="PatroAI">
+        <img src="assets/patroai-mark.png" alt="PatroAI" />
+        <div>
+          <div class="name">PatroAI</div>
+          <div class="tag">Governable AI • Orquestração • Segurança</div>
+        </div>
+      </a>
+
+      <div class="menu">
+        <a href="#sobre">Sobre</a>
+        <a href="#produtos">O que fazemos</a>
+        <a href="#como">Como funciona</a>
+        <a href="#impacto">Impacto</a>
+        <a href="#contato" class="btn primary">Agendar conversa</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="top" class="wrap">
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="panel">
+          <span class="chip"><span class="dot" aria-hidden="true"></span> IA central para o seu negócio — com governança</span>
+          <h1>Uma IA que executa com você.<br/>E responde com evidências.</h1>
+          <p class="sub">
+            A PatroAI constrói e governa sistemas de IA aplicados ao negócio: agentes, integrações e auditoria — do diagnóstico à escala.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn primary" href="#contato">Solicitar apresentação</a>
+            <a class="btn" href="#produtos">Ver produtos</a>
+            <a class="btn blue" href="https://wa.me/5551989697605" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+
+          <p class="note">Private beta para soluções avançadas. Acesso sob convite / NDA quando necessário.</p>
+        </div>
+
+        <aside class="panel hero-card">
+          <div>
+            <div class="mini">Sinais que o seu time está pronto para a PatroAI</div>
+            <div class="kpis" style="margin-top:10px;">
+              <div class="kpi"><div class="n">+Processos</div><div class="t">muito manual, pouco rastreável</div></div>
+              <div class="kpi"><div class="n">+Risco</div><div class="t">LGPD/GDPR e auditoria</div></div>
+              <div class="kpi"><div class="n">+Integração</div><div class="t">ferramentas soltas, sem “cérebro”</div></div>
+            </div>
+          </div>
+
+          <div class="hr"></div>
+
+          <div>
+            <div class="mini">Promessa operacional</div>
+            <div class="grid3" style="grid-template-columns:1fr; margin-top:10px">
+              <div class="card panel" style="box-shadow:none">
+                <h3>Automação com controle</h3>
+                <p>Agentes que executam tarefas reais com políticas, logs e rastreabilidade.</p>
+              </div>
+              <div class="card panel" style="box-shadow:none">
+                <h3>Integração por API</h3>
+                <p>Conectores para WhatsApp, CRMs, ERPs, dados internos e serviços externos.</p>
+              </div>
+              <div class="card panel" style="box-shadow:none">
+                <h3>Segurança por desenho</h3>
+                <p>Multi-tenant, segregação de dados e trilhas de auditoria para ambientes B2B.</p>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="sobre" class="sec">
+      <div class="panel">
+        <h2>Sobre a PatroAI</h2>
+        <p>
+          Somos uma consultech que cria e implementa sistemas de IA com foco em execução, governança e segurança.
+          Projetamos soluções para uso real em operações, atendimento e backoffice — com padrão corporativo.
+        </p>
+      </div>
+    </section>
+
+    <section id="produtos" class="sec">
+      <div class="split">
+        <div class="panel">
+          <h2>O que fazemos</h2>
+          <p>Três frentes que se conectam e aceleram resultados.</p>
+
+          <div class="grid3">
+            <div class="card panel" style="box-shadow:none">
+              <h3>Orkio</h3>
+              <p>Plataforma “GPT-like” para orquestrar agentes, arquivos, conectores e auditoria (private beta).</p>
+              <div class="mini" style="margin-top:8px;">Chat • Studio • Graph • Connectors • Trust & Audit</div>
+            </div>
+
+            <div class="card panel" style="box-shadow:none">
+              <h3>Implantação & PoCs</h3>
+              <p>Diagnóstico, desenho de solução, prova de conceito e implantação assistida com métricas.</p>
+              <div class="mini" style="margin-top:8px;">SLA • KPIs • Runbook • Treinamento</div>
+            </div>
+
+            <div class="card panel" style="box-shadow:none">
+              <h3>Verticalização</h3>
+              <p>Templates e agentes prontos para casos recorrentes (finanças, serviços, operações, etc.).</p>
+              <div class="mini" style="margin-top:8px;">Módulos • Políticas • Integrações</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>O diferencial</h2>
+          <p>
+            IA não é só resposta — é operação. O nosso foco é entregar uma IA “central” que integra,
+            coordena e registra o que foi feito, para você confiar e escalar.
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="num">1</div>
+              <div>
+                <b>Governança nativa</b>
+                <div class="mini">políticas + auditoria + segregação de dados</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">2</div>
+              <div>
+                <b>Intra-agentes</b>
+                <div class="mini">handoff e colaboração automática entre agentes</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="num">3</div>
+              <div>
+                <b>Auto-config por escopo</b>
+                <div class="mini">define o escopo → provisiona agentes, links e integrações</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hr"></div>
+          <div class="mini">
+            Observação: materiais públicos evitam detalhes sensíveis. Demonstrações completas são feitas sob convite.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="como" class="sec">
+      <div class="panel">
+        <h2>Como funciona (3 passos)</h2>
+        <p>Um caminho direto para sair do “piloto eterno” e chegar na escala.</p>
+
+        <div class="steps" style="margin-top:14px">
+          <div class="step">
+            <div class="num">1</div>
+            <div>
+              <b>Diagnóstico & desenho</b>
+              <div class="mini">Mapeamos processo, dados, riscos (LGPD/GDPR) e integrações necessárias.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">2</div>
+            <div>
+              <b>PoC com métricas</b>
+              <div class="mini">Entregamos uma prova de valor com KPIs claros e trilha auditável.</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="num">3</div>
+            <div>
+              <b>Escala & governança</b>
+              <div class="mini">Padronizamos templates, políticas e monitoramento para operação contínua.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="impacto" class="sec">
+      <div class="panel">
+        <h2>Impacto</h2>
+        <p>
+          Acreditamos em tecnologia com responsabilidade. Parte do que prospera aqui pode retornar ao mundo
+          em iniciativas de educação, inclusão digital e apoio a causas (modelo de impacto em evolução).
+        </p>
+      </div>
+    </section>
+
+    <section id="contato" class="sec">
+      <div class="panel">
+        <h2>Solicitar apresentação</h2>
+        <p>Conte o cenário. Nós voltamos com uma proposta objetiva (ou um roteiro de PoC) em até 48h úteis.</p>
+
+        <!-- Substitua o endpoint do Formspree (ou use Tally/Typeform/Google Forms) -->
+        <form action="https://formspree.io/f/SEU_ENDPOINT_FORMSPREE" method="POST">
+          <input type="hidden" name="_subject" value="PATROAI — Solicitação de apresentação" />
+          <input type="hidden" name="_format" value="plain" />
+          <input type="hidden" name="site" value="patroai.com" />
+
+          <div class="row">
+            <div>
+              <label>Nome</label>
+              <input name="nome" required placeholder="Seu nome" />
+            </div>
+            <div>
+              <label>Empresa</label>
+              <input name="empresa" placeholder="Nome da empresa" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Email</label>
+              <input name="email" type="email" required placeholder="voce@empresa.com" />
+            </div>
+            <div>
+              <label>WhatsApp</label>
+              <input name="whatsapp" placeholder="+55 (xx) xxxxx-xxxx" />
+            </div>
+          </div>
+
+          <div>
+            <label>Use case (o que você quer automatizar?)</label>
+            <textarea name="use_case" rows="4" placeholder="Ex.: atendimento, backoffice, originação, compliance, relatórios..."></textarea>
+          </div>
+
+          <div class="cta-row" style="margin-top:4px;">
+            <button class="btn primary" type="submit">Enviar</button>
+            <a class="btn blue" href="https://wa.me/5551989697605" target="_blank" rel="noopener">WhatsApp direto</a>
+            <a class="btn" href="mailto:daniel@patroai.com">Email</a>
+          </div>
+
+          <div class="note">Ao enviar, você concorda em ser contatado(a) para esta solicitação. Ajuste textos e política conforme sua LGPD.</div>
+        </form>
+
+        <footer>
+          <span>© PatroAI • PatroAI Consultech LTDA</span>
+          <span class="legal">
+            <a href="#" onclick="alert('Adicione aqui seus Termos e Política (LGPD/GDPR).'); return false;">Termos</a>
+            &nbsp;•&nbsp;
+            <a href="#" onclick="alert('Adicione aqui sua Política de Privacidade.'); return false;">Privacidade</a>
+          </span>
+        </footer>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
